@@ -181,20 +181,23 @@ def modify_mztab_model(model: MzTabBaseModel):
 def save_metabolights_study_model(
     mtbls_model: MetabolightsStudyModel, output_dir: str = "output"
 ):
+    print(f"Saving MetaboLights study model to {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
+    print(f"Writing investigation file to {output_dir}/i_Investigation.txt")
     Writer.get_investigation_file_writer().write(
         mtbls_model.investigation,
         f"{output_dir}/i_Investigation.txt",
         values_in_quotation_mark=True,
     )
-
+    print(f"Writing sample file to {output_dir}/{mtbls_model.samples[list(mtbls_model.samples)[0]].file_path}")
     samples_file: SamplesFile = mtbls_model.samples[list(mtbls_model.samples)[0]]
     dump_isa_table(samples_file, f"{output_dir}/{samples_file.file_path}")
 
-
+    print(f"Writing assay file to {output_dir}/{mtbls_model.assays[list(mtbls_model.assays)[0]].file_path}")
     assay_file: AssayFile = mtbls_model.assays[list(mtbls_model.assays)[0]]
     dump_isa_table(assay_file, f"{output_dir}/{assay_file.file_path}")
     
+    print(f"Writing MAF (metabolite) file to {output_dir}/{mtbls_model.metabolite_assignments[list(mtbls_model.metabolite_assignments)[0]].file_path}")
     assignment_file: AssignmentFile = mtbls_model.metabolite_assignments[list(mtbls_model.metabolite_assignments)[0]]
     dump_isa_table(assignment_file, f"{output_dir}/{assignment_file.file_path}")
 

@@ -57,10 +57,6 @@ def convert(input_file: str, output_dir: str, mtbls_accession_number: str):
 
     #print disclaimer that we currently do not fully validate neither the mzTab-M file, nor the ISA-Tab files
     print("Please note that the mzTab-M file is not fully validated by this tool. The ISA-Tab files are not validated either at the moment.")
-
-    if input_file.startswith("test/data/singa"):
-        print("Using default input file: test/data/singaporean-plasma-site1.mzTab.json")
-        print("Please use the --input-file option to specify a custom input file.")
         
     with open(input_file) as f:
         mztab_json_data = json.load(f)
@@ -75,4 +71,7 @@ def convert(input_file: str, output_dir: str, mtbls_accession_number: str):
     utils.save_metabolights_study_model(mtbls_model, output_dir=study_metadata_output_path)
 
 if __name__ == "__main__":
-    convert()
+    if len(sys.argv) == 1:
+        convert.main(['--help'])
+    else:
+        convert()
